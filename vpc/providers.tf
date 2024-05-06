@@ -6,9 +6,9 @@ terraform {
     }
   }
     backend "s3" {
-    bucket         = "rancho-backend"
-    key            = "vpc.tfstate"
-    region         = "us-east-1"
+    # bucket         = "rancho-backend"
+    # key            = "vpc.tfstate"
+    # region         = "us-east-1"
     # dynamodb_table = "terraform_locks"
   }
 }

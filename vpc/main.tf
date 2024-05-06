@@ -1,7 +1,7 @@
 
 
 # Create VPC
-resource "aws_vpc" "my_vpc" {
+resource "aws_vpc" "vpc" {
   cidr_block           = var.cidr_block_vpc
   enable_dns_hostnames = true
 }
@@ -9,7 +9,7 @@ resource "aws_vpc" "my_vpc" {
 # Create public subnets
 resource "aws_subnet" "public_subnet" {
   count                   = length(var.cidr_blocks_public_subnets)
-  vpc_id                  = aws_vpc.my_vpc.id
+  vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.cidr_blocks_public_subnets[count.index]
   availability_zone       = var.availability_zones_public_subnets[count.index]
   map_public_ip_on_launch = true
@@ -18,25 +18,25 @@ resource "aws_subnet" "public_subnet" {
 # Create private subnets
 resource "aws_subnet" "private_subnet" {
   count            = length(var.cidr_blocks_private_subnets)
-  vpc_id           = aws_vpc.my_vpc.id
+  vpc_id           = aws_vpc.vpc.id
   cidr_block       = var.cidr_blocks_private_subnets[count.index]
   availability_zone = var.availability_zones_private_subnets[count.index]
 }
 
 # Create Internet Gateway
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id = aws_vpc.vpc.id
 }
 
 # # Attach Internet Gateway to VPC
-# resource "aws_vpc_attachment" "my_vpc_attachment" {
-#   vpc_id             = aws_vpc.my_vpc.id
+# resource "aws_vpc_attachment" "vpc_attachment" {
+#   vpc_id             = aws_vpc.vpc.id
 #   internet_gateway_id = aws_internet_gateway.my_igw.id
 # }
 
 # Create Route Table for Public Subnets
 resource "aws_route_table" "public_route_table" {
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id = aws_vpc.vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -67,7 +67,7 @@ resource "aws_eip" "my_eip" {
 # Create Route Table for Private Subnets
 resource "aws_route_table" "private_route_table" {
   count  = length(aws_subnet.private_subnet)
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id = aws_vpc.vpc.id
 
   route {
     cidr_block     = "0.0.0.0/0"
