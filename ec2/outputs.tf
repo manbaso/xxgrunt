@@ -15,3 +15,7 @@ output "instance_private_ips" {
 output "instance_tags" {
   value = aws_instance.instance[*].tags.Name
 }
+
+output "instance_profile" {
+  value = aws_instance.instance[*].iam_instance_profile
+}

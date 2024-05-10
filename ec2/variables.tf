@@ -35,6 +35,12 @@ variable "subnet_id" {
   
 }
 
+variable "iam_instance_profile" {
+  type    = string
+  
+}
+
+
 variable  "vpc_security_group_ids" {
   type    = list(string)
   default = []

@@ -13,6 +13,8 @@ resource "aws_instance" "instance" {
   associate_public_ip_address = true
 
   key_name        = var.key_name
+
+  iam_instance_profile   = var.iam_instance_profile
   
   
   
